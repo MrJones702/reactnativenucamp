@@ -1,3 +1,7 @@
+scoped package=>> use an @ symbol, the name of the community, a forward slash, then the name of the package
+
+For a drawer navigator it matters what order u place.. because it dictates the order of the links in the drawer.. 
+
 Navigation Prop==> each screen in your app is provided with the navigation prop automatically. the Prop contains various convenience functions that dispatch navigation actions on the route's router.
 this.props.navigation
     navigate - go to another screen, figures out the action it needs to take to do it

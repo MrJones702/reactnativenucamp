@@ -1,0 +1,15 @@
+There is no direct equivalent ti the html <form> element...
+
+In REACT you still had to use components (such as Form and LocalForm) that would render to the HTML <form> element in the browser DOM - this is not necessary in REACT NATIVE
+
+you still use components that act similarly to HTML elements that take input from the user: 
+EX) chosose YES/No, True/FALSE, On/Off, etc...
+    HTML=> Radio Buttons...... NATIVE=> Switch components
+ex) choose from multiple options: 
+    HTML=> <option> and <select>..... NATIVE: Picker and Picker.Item
+ex) enter text:
+    HTML=> <input>... NATIVE=> TextInput
+
+
+update value in the local components state whenever the user interacts with the picker(s) in react this is called controlled forms => where the forms input values are store in local state... Uncontrolled forms are not possible in react native because it stores data in REACT DOM which does not exist in REACT NATIVE...
+

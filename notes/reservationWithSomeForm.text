@@ -1,0 +1,139 @@
+import react, {Component} from 'react';
+import {Text, View, ScrollView, StyleSheet, 
+    Picker, Switch, Button} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
+
+class Reservation extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state= {
+            campers:1,
+            hikeIn: false,
+            date: new Date(),
+            showCalender: false
+        };
+    }
+
+    static navigationOptions = {   
+        title: 'Reseerve Campsite'
+    }
+
+    handleReservation() {
+        console.log(JSON.stringify(this.state));
+        this.setState({
+            campers:1,
+            hikeIn: false,
+            date: new Date(),
+            showCalender: false
+        });
+    }
+
+    render() {
+        return (
+            <ScrollView>
+                <View style={StyleSheet.formRow}>
+                    <Text style={StyleSheet.formLabel}>Number of Campers</Text>
+                    <Picker
+                        style={StyleSheet.formItem}
+                        selectedValue={this.state.campers}
+                        onValueChange={itemVallue => this.setState({campers: itemValue})}
+                    >
+                        <Picker.Item label='1' value='1' />
+                        <Picker.Item label='2' value='2' />
+                        <Picker.Item label='3' value='3' />
+                        <Picker.Item label='4' value='4' />
+                        <Picker.Item label='5' value='5' />
+                        <Picker.Item label='6' value='6' />
+                    </Picker>
+                </View>
+                <View style={StyleSheet.formRow}>
+                    <Text style={StyleSheet.formLabel}>Hike-In?</Text>
+                    <Switch
+                        style={StyleSheet.formItem}
+                        value={this.state.hikeIn}
+                        trackColor={{true: '#5637DD', false: null}}
+                        onValueChange={value=> this.setState({hikeIn: value})}
+                    />
+                </View>
+                <View style={styles.formRow}>
+                    <Text style={styles.formLabel}>Date</Text>
+                    <Button
+                        onPress={() =>
+                            this.setState({showCalender: !this.state.showCalendar})
+                        }
+                        title={this.state.date.toLocaleDateString('en-US')}
+                        color='#5637DD'
+                        accessibilityLabel='Tap me to select a reservation date'
+                    />
+                </View>
+                {this.state.showCalendar && (
+                    <DateTimePicker
+                        value={this.state.date}
+                        mode={'date'}
+                        display='default'
+                        onChange={(event, selectedDate)=> {
+                            selectedDate && this.setState({date: selectedDate, showCalendar: false});
+                        }}
+                        style={styles.formItem}
+                    />
+                )}
+                <View style={styles.formRow}>
+                    <Button
+                        onPress={() => this.handleReservation()}
+                        title='Search'
+                        color='#5637DD'
+                        accessibilityLabel='Tap me to search for available campsites to reserve'
+                    />
+                </View>
+            </ScrollView>
+        );
+    }
+}
+
+const styles= StyleSheet.create({
+    formRow: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row',
+        margin: 20
+    },
+    formLabel: {
+        fontSize: 18,
+        flex: 2
+    },
+    formItem: {
+        flex: 1
+    }
+});
+
+export default Reservation;
+
+NOTES!!!!!!!
+
+19-21) is because we will be using this component in the stack navigator on the maincomp.js
+
+23-30) when the form is submitted we will need to handle that event so we set it up now as a eventhandler... 
+in this case its just going to echo back the components state in a console log... then reset the state back to its initial values
+
+38) Picker component comes with a built in prop called "selectedValue" whic we set to this.state.campers 
+and another called "onValueChange" to which we pass a callback funtion with an itemValue parameter and it will update the components states campers property with that item value...
+
+42-47) label is what the user sees and the value is what is passed to the onValueChange prop when selected.. 
+
+53) we use Switch for a yes no kind of imput.. also we used 3 built in props for that kind of input (Switch)
+    value- which we set to this.state.hikeIn 
+    trackColor -to give a color if the switch value is true and we can set false to null
+    onValueChange - triggered when the user changes the value... takes a callback funtion which we pass the value parameter.. which contains the selected value and it will update the reservations components state with the new value
+
+62) Button component... we gave onPress prop and we set it to toggle a new state value called showCalendar by using the logical not operator (!) ... title prop that will give the current date formatted in the US convention meaning month/date/year
+then a color and an accessibilityLabel to help with screen readers... 
+
+72) DateTimePicker...  dont forget when reading line 72 that when using a && if the left side of it is false the the right side isnt even evaluated(in other words it exits the condition once it has the first false)... DateTimePicker check documentation??
+ onChange={(event, selectedDate)=> {selectedDate && this.setState({date: selectedDate, showCalendar: false});}} 
+    -makes sure the selected date is changed to the state.. and hides the calendar once the date is selected... 
+
+
+83) button to make sure the form is able to submit... hence why the onPress  prop is passed the handleReservation() function we set up near the top. 
