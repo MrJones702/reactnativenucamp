@@ -121,7 +121,7 @@ class Reservation extends Component {
                                 this.resetForm();
                             }}
                             color='#5637DD'
-                            title='Close'
+                            title='Close '
                         />
                     </View>
                 </Modal>
