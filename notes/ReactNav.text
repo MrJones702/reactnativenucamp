@@ -1,3 +1,9 @@
+connect()=> used to connect to Redux store
+
+mpadispatchToProps object is used when updating the store by dispatching actions... not when readonly...
+
+mapStateToProps function is used to pass ______ state to component as props....
+
 scoped package=>> use an @ symbol, the name of the community, a forward slash, then the name of the package
 
 For a drawer navigator it matters what order u place.. because it dictates the order of the links in the drawer.. 
