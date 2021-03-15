@@ -93,4 +93,17 @@ const styles= StyleSheet.create({
     }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Favorites);
+export default connect(mapStateToProps)(Favorites);
+
+NOTES !!!!!!! Notes !!!!!!!! 
+
+import { SwipeRow } from 'react-native-swipe-list-view';
+
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
+32) SwipeRow allows us to make the components with/in it have the swipe capabilities. in this case the ListItem 
+rightOpenValue => means the swipeRow will open on the right side which requires a negative integer whose absolute value represents the number of pixels the user would have to swipe in order for it to open... 
+inside SwipeRow we must set up 2 view components/ thats the the swipeRow expects... W/ the first view being the hidden view.. The 2md view should be the default view that u see before the swipe.. 
+
+TouchableOpacity comes with an onPress prop which we give the deleteFavorite action (whatever we want to happen) using the item.id... and the text will act as a label.. 
+

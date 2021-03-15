@@ -1,6 +1,6 @@
 connect()=> used to connect to Redux store
 
-mpadispatchToProps object is used when updating the store by dispatching actions... not when readonly...
+mpadispatchToProps object is used when updating the store by dispatching actions... not when readonly... so anytime we want to dispatch an action creator from a component.. 
 
 mapStateToProps function is used to pass ______ state to component as props....
 
