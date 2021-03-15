@@ -151,7 +151,7 @@ const HomeNavigator = createStackNavigator(
     {
         defaultNavigationOptions: ({navigation}) => ({
             headerStyle: {
-                backgroundColor: '#5637DD'
+                backgroundColor:  '#5637DD'
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
