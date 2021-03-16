@@ -21,3 +21,6 @@ this.props.navigation
     dangerouslyGetParent - function that returns the parent navigator, if any
 It's important to highlight the navigation prop is not passed in to all components; only screen components receive this prop automatically! React Navigation doesn't do anything magic here. For example, if you were to define a MyBackButton component and render it as a child of a screen component, you would not be able to access the navigation prop on it. If, however, you wish to access the navigation prop in any of your components, you may use the withNavigation HOC.
 
+Animated (library) comes with React Native... used to create powerful/ fluid animated affects... 
+the most basic workflow for creating animation is to create an Animated.Value, hook it up to one or more style attributes of an animated component, and then drive updates via animations using Animated.timing(): 
+

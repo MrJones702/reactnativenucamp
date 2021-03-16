@@ -1,2 +1,7 @@
 expo install react-native-swipe-list-view 
     supports a way to swipe to reveal buttons: 
+
+
+expo install react-native-animatable
+    library built on top of the react native animated library
+    pre-packaged animations that can easily be applied to components... 

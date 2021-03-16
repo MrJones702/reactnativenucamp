@@ -1,0 +1,70 @@
+import { View, Text, Animated } from 'react-native';
+. . .
+
+class Home extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            scaleValue: new Animated.Value(0)
+        };
+    }
+
+    animate() {
+        Animated.timing(
+            this.state.scaleValue,
+            {
+                toValue: 1,
+                duration: 1500,
+                useNativeDriver: true
+            }
+        ).start();
+    }
+
+    componentDidMount() {
+        this.animate();
+    }
+
+    static navigationOptions = {
+        title: 'Home'
+    }
+
+    render() {
+        return (
+            <Animated.ScrollView style={{transform: [{scale: this.state.scaleValue}]}}>
+                <RenderItem
+                    item={this.props.campsites.campsites.filter(campsite => campsite.featured)[0]}
+                    isLoading={this.props.campsites.isLoading}
+                    errMess={this.props.campsites.errMess}
+                />
+                <RenderItem
+                    item={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
+                    isLoading={this.props.promotions.isLoading}
+                    errMess={this.props.promotions.errMess}
+                />
+                <RenderItem
+                    item={this.props.partners.partners.filter(partner => partner.featured)[0]}
+                    isLoading={this.props.partners.isLoading}
+                    errMess={this.props.partners.errMess}
+                />
+            </Animated.ScrollView>
+. . .
+
+NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! NOTES!!!!!! 
+
+imported Animated
+
+9) made a value scaleValue then in it we made a new Animated.Value with 0 as the initial value... scaleValue can be named  anything... 
+
+13) animate() is a custom method we are creating (can be named w/e)... 
+14) Animated.timing() we gave it 2 arguments
+    1) the name of the animated value we want to have changed over time
+    2) argument that contains 3 properties...
+        a) toValue => what we want the animated value to change to from its initial value... 1 representing 100% in terms of scale
+        b) duartion prop => how long it will take to animate from initial to new value
+        c) useNativeDriver to true which helps improve the proformance of animations in this library
+    then we chained the start method to run this animation... timing also has a stop() method... 
+
+24) componentDidMount => so when the home component mounts it will automatically start the animation that we passed componentDidMount.. 
+
+34) Animated.ScrollView gives us a ScrollView component thats hooked up to the animated API.. check Animated documentation ... added style should be set just like it is with scaleValue being named whatever we named in the state.. 
