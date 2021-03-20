@@ -1,0 +1,41 @@
+. . .
+import * as Animatable from 'react-native-animatable';
+
+. . .
+        if (this.props.partners.errMess) {
+            return (
+                <ScrollView>
+                    <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+                        <Mission />
+                        <Card
+                            title="Community Partners">
+                            <Text>{this.props.partners.errMess}</Text>
+                        </Card>
+                    </Animatable.View>
+                </ScrollView>
+            );
+        }
+        return (
+            <ScrollView>
+                <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
+                    <Mission />
+                    <Card
+                        title="Community Partners">
+                        <FlatList
+                            data={this.props.partners.partners}
+                            renderItem={renderPartner}
+                            keyExtractor={item=>item.id.toString()}
+                        />
+                    </Card>
+                </Animatable.View>
+            </ScrollView>
+NOTES!!!!! NOTES!!!!! NOTES!!!!! NOTES!!!!! NOTES!!!!!
+expo install react-native-animatable
+-The aanimated API provides a fairly comprehensive way of doing complex animations and comes included with React Native core
+    howevere it can be quite cumbersome... 
+    There are many third party lobraries built on top of the Animated library to more easily set up basic animations... 
+8) Animatable.View component is preconfigured since its so common.. animation prop="fadeInDown" 2000 and 1000 is miliseconds      so really equals 2 and 1 second.
+    MAke sure you don't forget the end tag like on line 14)...
+these animations are self explanitory... Page will load then a brief delay which we set to 1 second or 1000 miliseconds... after that the view will fade in to the screen fadeinDown means comes in a downward direction.. and duration is how long the animated prop will last. So it will fade in downward direction for 2 seconds after a 1 second delay... 
+
+documentation for more=> https://www.npmjs.com/package/react-native-animatable

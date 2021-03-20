@@ -68,3 +68,5 @@ imported Animated
 24) componentDidMount => so when the home component mounts it will automatically start the animation that we passed componentDidMount.. 
 
 34) Animated.ScrollView gives us a ScrollView component thats hooked up to the animated API.. check Animated documentation ... added style should be set just like it is with scaleValue being named whatever we named in the state.. 
+
+check out this https://reactnative.dev/docs/animated

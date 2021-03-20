@@ -1,0 +1,41 @@
+. . .
+
+function RenderCampsite(props) {
+
+    const {campsite} = props;
+
+    const view = React.createRef();
+. . .
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderGrant: () => {
+            view.current.rubberBand(1000)
+            .then(endState => console.log(endState.finished ? 'finished' : 'canceled'));
+        },
+        onPanResponderEnd: (e, gestureState) => {
+. . .
+
+    if (campsite) {
+        return (
+            <Animatable.View
+                animation='fadeInDown'
+                duration={2000}
+                delay={1000}
+                ref={view}
+                {...panResponder.panHandlers}>
+. . .
+Notes!!!! Notes!!!! Notes!!!! Notes!!!! Notes!!!! 
+Learn to use animations to give visual feedback to users in response to a gesture.
+In this exercise, you saw the use of animations, via another way of using the Animatable library, as a way of providing visual feedback to users in response to gestures. 
+
+in order to programmatically trigger an animation on an Animatable component we first need to set up a reference to it... 
+we do this using a react ref... think of refs as similiar to how in web dev u might give a HTML element an Id attribute so that u can refer to it in the JS code using something like getElementById... 
+7) we create a ref using the React.createRef method and we stored it into a variable named view.. next we point this ref to an Animatable comp. 
+NOTE!!! any react component that are defined as class components, which Animatable.View is, will allow us to set a ref prop on it... 
+24) for the value of this ref prop we use the view ref that we just created... now we can use this view ref to set up an animation using the panResponder... 
+
+11) added another panHandler we used onPanResponderGrant which is a handler that is triggered when a gesture is first recognized.. dont forget to add a comma between this and the next panHandler... 
+inside this we used the ref by typing iew 12) then in order to refer to the currently mounted instance of this component we type .current then we call an animatable function as a method on this ref... rubberBand ... 1000 will be the duration.. 
+every animatable method will return a promise object at the end of the duration that will contain the property of finished... finished will be true if the animation finished succesfully and false if the animation didnt finish for some reason.. 
+13) not necessary to do anything with this promise but just to see how to add another action to the end of an animation this way... console log if it finished or canceled ( maybe next time u want to start another animation, or dispatch a redux action, or call another eventhandler..  ) so line 13 isnt necessary "per say"... 
+

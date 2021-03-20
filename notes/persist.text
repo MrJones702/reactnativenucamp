@@ -1,0 +1,76 @@
+Then, open ConfigureStore.js and update it as follows:
+. . .
+import { persistStore, persistCombineReducers } from 'redux-persist';
+import storage from 'redux-persist/es/storage';
+
+const config = {
+    key: 'root',
+    storage,
+    debug: true
+}
+
+export const ConfigureStore = () => {
+    const store = createStore(
+        persistCombineReducers(config, {
+            campsites,
+            comments,
+            partners,
+            promotions,
+            favorites
+        }),
+        applyMiddleware(thunk, logger)
+    );
+
+    const persistor = persistStore(store);
+
+    return { persistor, store };
+};
+Then, open App.js and update it as follows:
+. . .
+import { PersistGate } from 'redux-persist/es/integration/react';
+import Loading from './components/LoadingComponent';
+
+const { persistor, store } = ConfigureStore();
+
+export default function App() {
+    return (
+        <Provider store={store}>
+            <PersistGate
+                loading={<Loading />}
+                persistor={persistor}>
+                <Main />
+            </PersistGate>
+        </Provider>
+    );
+}
+
+NOtes!!!!! NOtes!!!!! NOtes!!!!! NOtes!!!!! NOtes!!!!! 
+expo install redux-persist@5.9.1
+Set up and configure redux-persist.
+Learn to persist the Redux store and rehydrate it when the application is reloaded.
+In this exercise, you learned to persist the Redux store using the redux-persist library and rehydrate the store upon reloading the application.
+6-10) object that contains some confiuration values... 
+1st to propertys are required
+1) key we gave the string value root
+2) storage which we set to storage object that we imported... 
+in this version of redux-persist the default storage type is called local storage... there are other types 
+3) debug to true.. will cause redux persist to console log messages that will help us debug any issues
+
+14) next step is to change CombineReducers function to persistCombineReducers and pass it the config object we just created as the first arguement.. 
+now persistCombineReducers function handles updating the state to local storage.. w/e a reducer is used to update the redux store..
+
+24) next we set up a persistor variable which we'll get by calling the persistStore with store as an argument.. 
+this enables the store to be persisted and we'll need to use this persistor variable later in app.js.. 
+
+26) used to be =>return store 
+now its => return { persistor, store }; We're returning an object that contains both the persistor and the store so that we can access both from app.js 
+
+
+
+App.js App.js App.js App.js 
+
+imports... 
+33) much like line 65-66) we now bring in persistore and store using object destructuring syntax... 
+38-43) we wrap the main component in PersistGate.. this component is provided by redux persist to help integrate it w/ react and react native apps 
+ it prevents the app from rendering until the redux store has rehydrated fully from the client side storage.. 
+ whatever component we pass to the loading prop 39)  is what we'll show while the redux store is rehydrating.. so it only makes sense that we used our loading component.. then we need to pass  the persistor 40) object as well. 

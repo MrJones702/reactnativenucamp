@@ -1,0 +1,72 @@
+. . .
+import { Text, View, ScrollView, FlatList,
+    Modal, Button, StyleSheet,
+    Alert, PanResponder } from 'react-native';
+. . .
+
+function RenderCampsite(props) {
+
+    const {campsite} = props;
+
+    const recognizeDrag = ({dx}) => (dx < -200) ? true : false;
+
+    const panResponder = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onPanResponderEnd: (e, gestureState) => {
+            console.log('pan responder end', gestureState);
+            if (recognizeDrag(gestureState)) {
+                Alert.alert(
+                    'Add Favorite',
+                    'Are you sure you wish to add ' + campsite.name + ' to favorites?',
+                    [
+                        {
+                            text: 'Cancel',
+                            style: 'cancel',
+                            onPress: () => console.log('Cancel Pressed')
+                        },
+                        {
+                            text: 'OK',
+                            onPress: () => props.favorite ?
+                                console.log('Already set as a favorite') : props.markFavorite()
+                        }
+                    ],
+                    { cancelable: false }
+                );
+            }
+            return true;
+        }
+    });
+
+    if (campsite) {
+        return (
+            <Animatable.View
+                animation='fadeInDown'
+                duration={2000}
+                delay={1000}
+                {...panResponder.panHandlers}>
+. . .
+
+NOTES!!!!! NOTES!!!!! NOTES!!!!! NOTES!!!!! NOTES!!!!! 
+Learn to use the React Native built-in API called PanResponder to support gestures in your app. 
+In this exercise, you learned to use the PanResponder and two panHandlers, onStartShouldSetPanResponder and onPanResponderEnd, to cause the campsite information Card in the CampsiteInfo component to respond to a drag gesture of more than 200 pixels to the left. 
+
+11) function as an arrow function.. as a paremeter it will take an object and destructure from it a property named dx , which is basically the differential or distance of a gesture across the x axis.. 
+we used ternary op to return ture if dx< -200 and false if not..  -200because we're dragging to the left horizonally.. dont forget we're talking negative numbers so -300 would be smaller and -100 would be bigger
+
+13) const we named panResponder (is a panResponder, but we don't have to name it that... just easier to remember) and making it equal to where we use the PanResponder API w/ .create()
+we pass it an object as an argument that describes the kind of responder to create... there are a number of pre-defined evenhandlers (panHandlers) and we will use a few here.. 
+14)first onStartShouldSetPanResponder: as an arrow function that returns true.. it will activate the panResponder to respond to gestures on the component that its used on.. 
+15)next onPanResponderEnd event handler... we need a couple paremeters e and gesture state.. these will hold values that are automatically passed into this event handler and the first parameter gets the value of a native event object.. so e stands for event... only there in this case because we need the value thats passed into the gesture state and we cant get to the second parameter w/out also taking the first... 
+2nd paremeter will be an object that holds important info about the gesture that just ended...
+16) we console logged the gestures state just to see what it contains...  
+
+17) we call the recognizeDrag function and passed the gestureState to it.. and it returns true if the gesture was more than  200 pixels to the left (aka <-200 px) ... if so we set up an Alert 
+18-34) set up an Alert ... title =>19) body text => 20)  3rd argument we passed an array to hold objects to configure the alert buttons... 
+1st object will configure the button for cancel... onpress we just console logged a message.. 
+2nd object text ok onpress checking if already a fav then console log message if so.. if not we call the markFav event handler... 
+3rd object we passed an object to configure cancelable as false so the user cant just tap outside of the alert box to close it...
+36) then we finish the onPanResponderEnd event handler by returning true at the end of the method... 
+
+now we need to connect the panResponder to a component... 
+46) we use the spread syntax to spread out the panResponders panHandlers then recombine them into one object to pass them as props for this component.. then takes care of connecting the panResponder to this component which wraps around the card for the campsite information... 
+
