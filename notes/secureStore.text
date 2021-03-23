@@ -1,0 +1,141 @@
+import React, { Component } from 'react';
+import { View, Button, StyleSheet } from 'react-native';
+import { Input, CheckBox } from 'react-native-elements';
+import * as SecureStore from 'expo-secure-store';
+
+class Login extends Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            username: '',
+            password: '',
+            remember: false
+        };
+    }
+
+    static navigationOptions = {
+        title: 'Login'
+    }
+
+    handleLogin() {
+        console.log(JSON.stringify(this.state));
+        if (this.state.remember) {
+            SecureStore.setItemAsync(
+                'userinfo',
+                JSON.stringify({
+                    username: this.state.username,
+                    password: this.state.password
+                })
+            ).catch(error => console.log('Could not save user info', error));
+        } else {
+            SecureStore.deleteItemAsync('userinfo').catch(
+                error => console.log('Could not delete user info', error)
+            );
+        }
+    }
+
+    componentDidMount() {
+        SecureStore.getItemAsync('userinfo')
+            .then(userdata => {
+                const userinfo = JSON.parse(userdata);
+                if (userinfo) {
+                    this.setState({username: userinfo.username});
+                    this.setState({password: userinfo.password});
+                    this.setState({remember: true})
+                }
+            });
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
+                <Input
+                    placeholder='Username'
+                    leftIcon={{type: 'font-awesome', name: 'user-o'}}
+                    onChangeText={username => this.setState({username})}
+                    value={this.state.username}
+                    containerStyle={styles.formInput}
+                    leftIconContainerStyle={styles.formIcon}
+                />
+                <Input
+                    placeholder='Password'
+                    leftIcon={{type: 'font-awesome', name: 'key'}}
+                    onChangeText={password => this.setState({password})}
+                    value={this.state.password}
+                    containerStyle={styles.formInput}
+                    leftIconContainerStyle={styles.formIcon}
+                />
+                <CheckBox
+                    title='Remember Me'
+                    center
+                    checked={this.state.remember}
+                    onPress={() => this.setState({remember: !this.state.remember})}
+                    containerStyle={styles.formCheckbox}
+                />
+                <View style={styles.formButton}>
+                    <Button
+                        onPress={() => this.handleLogin()}
+                        title='Login'
+                        color='#5637DD'
+                    />
+                </View>
+            </View>
+        );
+    }
+}
+
+const styles = StyleSheet.create({
+    container: {
+        justifyContent: 'center',
+        margin: 20
+    },
+    formIcon: {
+        marginRight: 10
+    },
+    formInput: {
+        padding: 10
+    },
+    formCheckbox: {
+        margin: 10,
+        backgroundColor: null
+    },
+    formButton: {
+        margin: 40
+    }
+});
+
+export default Login;
+
+NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! 
+expo  secure store API: encrypted key-value storage... meant to be used for small amounts of sensitive data.. 
+-uses IOS keychain services and Android SharedPreferences/keystore system... 
+the expo Secure Store API exposes 3 methods
+    1) SecureStore.setItemAsync(key, value, options)
+    ---- return a promise that will reject if value cannot be stored on the device
+    2) SecureStore.getItemAsync(key, options)
+    ---- return a promise that will resolve to stored value, or resolve to null if no entry for given key, or reject if error occurred
+    3) SecureStore.deleteItemAsync(key, options) 
+    ---- return a promise that will reject if the value could not be deleted
+    
+    
+    ---key required 1st argument for all 3... and the first takes a 2nd required arguement of value. 
+    options is optional for each one... 
+NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! NOTES!!!! 
+expo install expo-secure-store
+Learn to use the Expo SecureStore API with an example of how to use each of its three methods: getItemAsync, setItemAsync, deleteItemAsync. 
+Create a new Login component that contains a form, and uses the SecureStore API to store the login credentials. 
+In this exercise, you learned to use the Expo SecureStore API to store encrypted login credentials in your application. You also gained further practice in setting up a form, working with promises, and more. 
+
+22) this even handler activates when the login button is pressed.. 24) save the username and password (if the remember me box is checked) to the secure store using setItemAsync method... first argument of userinfo which will be the key.. then the value we want to store which will be the username and password. We need to convert to a JSON string in order to store it... so JSONstringify on an object turns it into a JSON string... 
+Check for a rejected promise by adding a catch block 27) so any error message will be automatically passed in... 
+if check box not checked then we want to delete any user info in the secure store using the deleteItemAsync 29)...
+this gets complicated but if any userinfo is in the secure store we can deduce that the remember me checkbox was checked the last time the form was submitted.=> 40) SecureStore.getItemAsync('username) to check if theres any data saved under the key of userinfo... 
+will return a promise that if it resolves will return the value stored under that key
+41) .then =>  allows us to access that data... JSON.parse turns it back into a JS object... 
+
+57) onchange text prop... whenever the text value of this input is changed we'll update the username and the state using setState. 
+38) set the value so that it always reflects the state.. (controlled component)
+70) checkbox requires a title... we centered it... checked we set to be controlled by the login components state property of remember.. onpress we set to change to the opposite of whatever the remember currently is... 
+

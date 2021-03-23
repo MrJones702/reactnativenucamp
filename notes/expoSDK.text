@@ -1,0 +1,31 @@
+What is expo?
+    Expo is a framework and a platform for universal Ract applications. It is set of tools and services buolt around react native and native platforms that help you develop, build, deploy, and quickly iterate on iOS, Android, and web apps from the same JS/TypeScript codebase. 
+
+Expo dev tools is the browser based userface that is launched when you use "expo start"
+
+SDK (Software Development Kit)
+    React native itself is concerned with giving you the tools to build the front end of your application. Creating diff components such as views, buttons, text, controlling the styles, etc...
+    SDK- provides access to device and system functionality such as contacts, camera, and GPS location. It is provided by the npm package expo- this is installed by default in every managed Expo project. You can import modules from it in javascript code like so: 
+            import * as Contacts from 'expo-contacts';
+            import { Gyroscope } from 'expo-sensors';
+                this allows you to write Contacts.getContactsAsync() , for example.... 
+
+SDK Limitations:
+    -Not all iOS and Android APIs are avialable yet.
+    -The SDK doesnt support all types of background code execution
+    -if you need to keep your app size extremly lean, the managed workflow may not be the best choice
+    -Native libraries to integrate w/ proprietary services are usually not included in the SDK 
+    -The only supported push notification service is the Expo notification service
+    -The minimum supported OS versions are Android 5+ and iOS 10+
+    -free builds can sometimes be queued
+
+Look into the eject command?? It will help with the limitations issue
+
+
+
+
+
+
+
+DOC!!!!!
+https://docs.expo.io/versions/latest/?redirected
