@@ -1,0 +1,89 @@
+. . .
+import { View, Platform, StyleSheet, Text, ScrollView, Image,
+    Alert, ToastAndroid } from 'react-native';
+. . .
+import NetInfo from '@react-native-community/netinfo';
+. . .
+
+class Main extends Component {
+
+    componentDidMount() {
+        this.props.fetchCampsites();
+        this.props.fetchComments();
+        this.props.fetchPromotions();
+        this.props.fetchPartners();
+
+        NetInfo.fetch().then(connectionInfo => {
+            (Platform.OS === 'ios')
+                ? Alert.alert('Initial Network Connectivity Type:', connectionInfo.type)
+                : ToastAndroid.show('Initial Network Connectivity Type: ' +
+                    connectionInfo.type, ToastAndroid.LONG);
+        });
+
+        this.unsubscribeNetInfo = NetInfo.addEventListener(connectionInfo => {
+            this.handleConnectivityChange(connectionInfo);
+        });
+    }
+
+    componentWillUnmount() {
+        this.unsubscribeNetInfo();
+    }
+    
+    handleConnectivityChange = connectionInfo => {
+        let connectionMsg = 'You are now connected to an active network.';
+        switch (connectionInfo.type) {
+            case 'none':
+                connectionMsg = 'No network connection is active.';
+                break;
+            case 'unknown':
+                connectionMsg = 'The network connection state is now unknown.';
+                break;
+            case 'cellular':
+                connectionMsg = 'You are now connected to a cellular network.';
+                break;
+            case 'wifi':
+                connectionMsg = 'You are now connected to a WiFi network.';
+                break;
+        }
+        (Platform.OS === 'ios')
+            ? Alert.alert('Connection change:', connectionMsg)
+            : ToastAndroid.show(connectionMsg, ToastAndroid.LONG);
+    }
+
+. . .
+NOTES!!! NOTES!!!NOTES!!!NOTES!!!NOTES!!!NOTES!!!NOTES!!!NOTES!!!NOTES!!!NOTES!!!
+
+expo install @react-native-community/netinfo@5
+imports always ...
+
+16) use NetInfo.fetch() method to obtain network state once. Has no parameters and will return a promise that resolves to a NetInfoState object. 
+access w/ .then()... the object we are getting back we named connectionInfo... 
+17) checking for the OS of the device.. using the Platform API and a ternary operator. If ios we use alert 
+if not ios then we assume android and us ToastAndroid API (provided by react native) to pop up whats called a toast.=> brief message that appears overlayed on top of the current view and then fades away in a few seconds.. .LONG = 3.5 seconds(to specify the duration... ) .show() has 2 arguments 1) the message to display and 2) an integer ( for how long to show the toast) ... .SHORT = 2 seconds... 
+
+23) still in the componentDidMount lifecycle method since we'll want to check for changes as soon as our component loads.. 
+ saved to a variable so we can use it later.. 
+ since we're already inside a method we have to use the this keyword to specify that we are creating this as a method on the parent class rather than a local vari inside componentDidMount. 
+ NetInfo.addEventListener this method takes a call back funtion inside its parameter list. this will automatically have access to the NetInfoState object as an argument so we pass it in as connectInfo...
+ this.handleConnectivityChange we set up on line 32) and pass it the connectionInfo on line 24).
+
+ componentWillUnmount call the unsubscribeNetInfo method to stop listening for changes when the Main component unmounts..  
+   
+
+
+
+NetInfo.fetch() 
+    -gett current state of the network, returns a promise that resolves to a NetInfoState object
+
+NetInfo.addEventListener(NetInfoState=>{...})
+    -subscribe to a network changes, auto gives you access to the NetInfoState object, returns a function that will unsubscribe this listener.  
+
+ NetInfoState 
+    -decribes the current state of the network. It is an object with these properties:
+    
+    _PROPERTY(TYPE)=> DESCRIPTION:
+        type(NetInfoStateType)=> the type of the current connection
+        isConnected(boolean)=> If there is an active network connection. Note that this does not mean that internet is reachable. 
+        isInternetReachable(boolean)=> if the internet is reachable w/ the currently active network connection.
+        isWifiEnabled(boolean)=> (android only) Whether the device's Wifi is ON or OFF.
+        details     => the vaule depends on the type value. 
