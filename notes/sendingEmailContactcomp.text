@@ -1,0 +1,44 @@
+. . .
+import { Card, Button, Icon } from 'react-native-elements';
+. . .
+import * as MailComposer from 'expo-mail-composer';
+. . .
+
+    sendMail() {
+        MailComposer.composeAsync({
+            recipients: ['campsites@nucamp.co'],
+            subject: 'Inquiry',
+            body: 'To whom it may concern:'
+        })
+    }
+    
+. . .
+                        <Button
+                            title="Send Email"
+                            buttonStyle={{backgroundColor: '#5637DD', margin: 40}}
+                            icon={<Icon
+                                name='envelope-o'
+                                type='font-awesome'
+                                color='#fff'
+                                iconStyle={{marginRight: 10}}
+                            />}
+                            onPress={() => this.sendMail()}
+                        />
+. . .
+NOTES!!!!!!
+In this exercise, you configured the MailComposer API from the Expo SDK to enable your app to send email. You also learned how to use the RNE Button component, which allows you to use an icon inside the button. 
+-expo install expo-mail-composer
+7-13) function named sendMail... MailComposer.composeAsync() method 
+    -takes an object as an argument w/ 3 properties
+        1) recipients which takes an array of emails.. 
+        2) subject we set to 'INquire'
+        3) body which we sent to ...... 
+    -all of this starts a new email w/ the devices default email app with all of these values already plugged in.. 
+
+16-26) we set up a button to hold this function.. This Button is not the default button component with react native but instead the button component from react-native-elements (check imports) this one has more enhanced configuration options.. 
+such as being able to set an icon to be used as the button.... 
+title= the text that will apear on the button... 
+buttonstyle is up to u
+icon prop we can pass like so...  lines 19-24) 
+23) iconStyle={{marginRight: 10}} => gave it a little space between the icon and the title text... 
+25) finally we gave it the onpress prop.. to activate/ call that function we created 

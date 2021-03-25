@@ -1,0 +1,42 @@
+. . .
+import { Text, View, ScrollView, FlatList,
+    Modal, Button, StyleSheet,
+    Alert, PanResponder, Share } from 'react-native';
+. . .
+
+    const shareCampsite = (title, message, url) => {
+        Share.share({
+            title: title,
+            message: `${title}: ${message} ${url}`,
+            url: url
+        },{
+            dialogTitle: 'Share ' + title
+        });
+    };
+
+. . .
+                        <Icon
+                            name={'share'}
+                            type='font-awesome'
+                            color='#5637DD'
+                            raised
+                            reverse
+                            onPress={() => shareCampsite(campsite.name, campsite.description, baseUrl + campsite.image)} 
+                        />
+. . .
+NOTES!!!! NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!NOTES!!!!
+note the import share.... 
+In this exercise, you learned how to use the Share API built into React Native to bring up a dialog to choose from various other applications already installed on your device to share information to from your React Native application. 
+
+7-15) made a function and it has 3 parameters: title, message, url... 
+inside this function we used the share APIs share method... which takes up to 2 objects as arguments
+1) required... = the content of whats being shared... we gave it 3 props.. 
+    1)title which takes the argument passed in as title as its value using short hand property names...
+    2) message that contains the text from the title message and url arguments that were passed in as its value
+    3) url property which takes the argument passed in as url as its value using short hand property names...
+    -1 title is not required but for android u must have at least the message... and for iOS u must have either a message or a url or both.. 
+2) give the share method a 2nd optional object that can hold extra config values... 
+    -dialogTitle for android only... => will set a title for the dialog that pops up when u go to share something... we set it to the word share plus the text from the title that was passed in... 
+
+18-25) icon to share with all the icon set up that we're already familiar w/ ... 
+only differnce is we didnt need to use props for the function because the function wasnt passed to this component as a prop... and we passed it the 3 arguments 1) name 2) description 3) and the url for the campsite image which is "baseUrl + campsite.image".
